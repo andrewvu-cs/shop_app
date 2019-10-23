@@ -13,15 +13,15 @@ const ProductItem = props => {
     <View style={styles.productItem}>
       <TouchableOpacity onPress={() => {}}>
         <View style={styles.mealHeader}>
-          <ImageBackground source={{ uri: 'hi' }} style={styles.bgImg}>
+          <ImageBackground source={{ uri: props.imageUrl }} style={styles.bgImg}>
             <View style={styles.titleContainer}>
-              <Text style={styles.title} numberOfLines={1}>Product Title</Text>
+              <Text style={styles.title} numberOfLines={1}>{props.title}</Text>
             </View>
           </ImageBackground>
         </View>
         <View style={styles.mealDetails}>
           <Button style={styles.button} title="Detils" onPress={() => {}} />
-          <Text>$PRICE</Text>
+          <Text>$ {props.price} </Text>
           <Button style={styles.button}title="Cart" onPress={() => {}} />
         </View>
       </TouchableOpacity>
@@ -31,6 +31,7 @@ const ProductItem = props => {
 
 const styles = StyleSheet.create({
   productItem: {
+    flex: 1,
     height: 200,
     width: "100%",
     backgroundColor: "#f5f5f5",
