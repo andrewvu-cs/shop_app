@@ -1,76 +1,86 @@
 import React from "react";
 import {
-  ImageBackground,
+  Image,
   Text,
   Button,
   View,
   StyleSheet,
-  TouchableOpacity
 } from "react-native";
+import Colors from "../constants/Colors";
 
 const ProductItem = props => {
   return (
-    <View style={styles.productItem}>
-      <TouchableOpacity onPress={() => {}}>
-        <View style={styles.mealHeader}>
-          <ImageBackground source={{ uri: props.imageUrl }} style={styles.bgImg}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title} numberOfLines={1}>{props.title}</Text>
-            </View>
-          </ImageBackground>
-        </View>
-        <View style={styles.mealDetails}>
-          <Button style={styles.button} title="Detils" onPress={() => {}} />
-          <Text>$ {props.price} </Text>
-          <Button style={styles.button}title="Cart" onPress={() => {}} />
-        </View>
-      </TouchableOpacity>
+    <View style={styles.product}>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={{ uri: props.imageUrl }} />
+      </View>
+      <View style={styles.details}>
+          <Text style={styles.title} numberOfLines={1}>
+            {props.title}
+          </Text>
+          <Text style={styles.price}>$ {props.price.toFixed(2)} </Text>
+      </View>
+       <View style={styles.actions}>
+          <Button
+            color={Colors.primary}
+            title="View Detils"
+            onPress={props.onViewDetail}
+          />
+          <Button
+            color={Colors.primary}
+            title="To Cart"
+            onPress={props.onAddToCart}
+          />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  productItem: {
-    flex: 1,
-    height: 200,
-    width: "100%",
-    backgroundColor: "#f5f5f5",
+  product: {
+    shadowColor: "black",
+    shadowOpacity: 0.26,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 5,
     borderRadius: 10,
-    overflow: "hidden",
-    marginVertical: 10
+    backgroundColor: "white",
+    height: 300,
+    margin: 20
   },
-  mealHeader: {
-    height: '85%',
-    flexDirection: 'row'
-  },    
-  bgImg:{
-      width: '100%',
-      height: '100%'
+  imageContainer: {
+    width: "100%",
+    height: "60%",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    overflow: 'hidden'
   },
-  titleContainer:{
-      paddingHorizontal: 12,
-      paddingVertical: 5,
-      backgroundColor:  "rgba(0,0,0,0.6)"
-  },    
-  title:{
-      textAlign: "center",
-      fontSize: 20,
-      color: 'white'
+  image:{
+    height: '100%',
+    width: '100%'
+  },  
+  details: {
+    alignItems: "center",
+    height: "15%",
+    padding: 10
   },
-  mealDetails:{
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      height: '15%',
-      paddingHorizontal: 0,
-      borderTopWidth: 2,
-      borderTopColor: 'red',
-      alignContent:'center'
+  title: {
+    textAlign: "center",
+    fontSize: 18,
+    marginVertical: 4
   },
-  button:{
-    alignSelf: 'center'
+  price: {
+    alignSelf: "center",
+    fontSize: 14,
+    color: "#888"
+  },
+  actions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: "25%",
+    paddingHorizontal: 20
   }
-
 });
 
 export default ProductItem;
