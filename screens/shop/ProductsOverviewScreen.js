@@ -1,10 +1,15 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 import ProductItem from "../../components/ProductItem";
-import { PRODUCTS } from "../../data/product-data";
+import { PRODUCTS } from '../../data/product-data';
 
 const ProductsOverviewScreen = props => {
+  /* useSelector recieves the state, use the state => products (set up in our reducer (App.js)) 
+      => availableProducts slice (set up in reducers/products.js) */
+  const products = useSelector(state => state.products.availableProducts);
+
   const renderProductItem = itemData => {
     return (
       <ProductItem
@@ -16,23 +21,17 @@ const ProductsOverviewScreen = props => {
   };
 
   return (
-    <View style={styles.screen}>
-      <FlatList
-        keyExtractor={(item, index) => item.id}
-        data={PRODUCTS}
-        renderItem={renderProductItem}
-      />
-      <Text>Hello</Text>
-    </View>
+    <FlatList
+      keyExtractor={(item, index) => item.pid}
+      data={ products }
+      renderItem={renderProductItem}
+    />
   );
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  }
-});
+
+ProductsOverviewScreen.navigationOptions = {
+  headerTitle: 'All Products'
+}
 
 export default ProductsOverviewScreen;
