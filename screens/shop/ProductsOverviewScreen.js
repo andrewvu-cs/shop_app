@@ -3,7 +3,6 @@ import { View, Text, FlatList, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
 import ProductItem from "../../components/ProductItem";
-import { PRODUCTS } from '../../data/product-data';
 
 const ProductsOverviewScreen = props => {
   /* useSelector recieves the state, use the state => products (set up in our reducer (App.js)) 
@@ -16,6 +15,12 @@ const ProductsOverviewScreen = props => {
         imageUrl={itemData.item.imageUrl}
         title={itemData.item.title}
         price={itemData.item.price}
+        onViewDetail={() => {
+          props.navigation.navigate("ProductDetails", {
+            productId: itemData.item.pid,
+            productTitle: itemData.item.title
+          });
+        }}
       />
     );
   };
@@ -23,15 +28,14 @@ const ProductsOverviewScreen = props => {
   return (
     <FlatList
       keyExtractor={(item, index) => item.pid}
-      data={ products }
+      data={products}
       renderItem={renderProductItem}
     />
   );
 };
 
-
 ProductsOverviewScreen.navigationOptions = {
-  headerTitle: 'All Products'
-}
+  headerTitle: "All Products"
+};
 
 export default ProductsOverviewScreen;
