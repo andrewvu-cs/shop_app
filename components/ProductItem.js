@@ -21,7 +21,7 @@ const ProductItem = props => {
   return (
     <View style={styles.product}>
       <View style={styles.touchable}>
-        <TouchFeedback onPress={props.onViewDetail} useForegrund>
+        <TouchFeedback onPress={props.onViewDetail} useForeground>
           <View>
             <View style={styles.imageContainer}>
               <Image style={styles.image} source={{ uri: props.imageUrl }} />
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   details: {
     alignItems: "center",
-    height: "15%",
+    height: "20%",
     padding: 10
   },
   title: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: "25%",
+    height: "20%",
     paddingHorizontal: 20
   }
 });
