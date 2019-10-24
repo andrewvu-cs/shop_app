@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
-import DefaultText from "../../components/DefaultText";
+import DefaultText from "../../components/UI/DefaultText";
 import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
 
