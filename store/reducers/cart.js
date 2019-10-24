@@ -15,12 +15,12 @@ export default (state = initialState, action) => {
 
       let updatedOrNewCartItem;
 
-      if (state.items[addedProduct.id]) {
+      if (state.items[addedProduct.pid]) {
         // already have theitem in the cart
         updatedOrNewCartItem = new CartItem(
           state.items[addedProduct.pid].quantity + 1,
           prodPrice,
-          prodTite,
+          prodTitle,
           state.items[addedProduct.pid].sum + prodPrice
         );
       } else {
