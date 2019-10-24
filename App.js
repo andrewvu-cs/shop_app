@@ -5,13 +5,15 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+import ordersReducer from './store/reducers/orders';
 import cartReducer from './store/reducers/cart';
 import productsReducer from "./store/reducers/products.js";
 import ShopNavigator from "./navigation/ShopNavigator";
 
 const rootReducer = combineReducers({
   products: productsReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  orders: ordersReducer
 });
 
 // make sure to remove dev tools before deployment
