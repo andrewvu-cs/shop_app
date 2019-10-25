@@ -5,7 +5,7 @@ import {
   View,
   TextInput,
   StyleSheet,
-  Platform
+  Platform,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -29,6 +29,7 @@ const EditProductScreen = props => {
   );
 
   const dispatch = useDispatch();
+
 
   const submitHandler = useCallback(() => {
     if (editedProduct) {
