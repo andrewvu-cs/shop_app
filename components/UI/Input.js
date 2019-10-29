@@ -1,10 +1,8 @@
-import React, { useReducer, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
-import Colors from "../../constants/Colors";
-import DefaultText from "../../components/UI/DefaultText";
+import React, { useReducer, useEffect } from 'react';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 
-const INPUT_CHANGE = "INPUT_CHANGE";
-const INPUT_BLUR = "INPUT_BLUR";
+const INPUT_CHANGE = 'INPUT_CHANGE';
+const INPUT_BLUR = 'INPUT_BLUR';
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -14,12 +12,11 @@ const inputReducer = (state, action) => {
         value: action.value,
         isValid: action.isValid
       };
-    case INPUT_BLUR: {
+    case INPUT_BLUR:
       return {
         ...state,
         touched: true
       };
-    }
     default:
       return state;
   }
@@ -27,7 +24,7 @@ const inputReducer = (state, action) => {
 
 const Input = props => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValue ? props.initialValue : "",
+    value: props.initialValue ? props.initialValue : '',
     isValid: props.initiallyValid,
     touched: false
   });
@@ -77,7 +74,7 @@ const Input = props => {
       />
       {!inputState.isValid && inputState.touched && (
         <View style={styles.errorContainer}>
-          <DefaultText style={styles.errorText}>{props.errorText}</DefaultText>
+          <Text style={styles.errorText}>{props.errorText}</Text>
         </View>
       )}
     </View>
@@ -86,24 +83,25 @@ const Input = props => {
 
 const styles = StyleSheet.create({
   formControl: {
-    width: "100%"
+    width: '100%'
   },
   label: {
-    fontFamily: "open-sans-bold",
+    fontFamily: 'open-sans-bold',
     marginVertical: 8
   },
   input: {
     paddingHorizontal: 2,
     paddingVertical: 5,
-    borderBottomColor: "#ccc",
+    borderBottomColor: '#ccc',
     borderBottomWidth: 1
   },
   errorContainer: {
     marginVertical: 5
   },
   errorText: {
-    color: "red",
-    fontSize: 14
+    fontFamily: 'open-sans',
+    color: 'red',
+    fontSize: 13
   }
 });
 

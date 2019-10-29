@@ -149,9 +149,9 @@ const EditProductScreen = props => {
             initiallyValid={!!editedProduct}
             required
           />
-          {editedProduct ? null : (
+         {editedProduct ? null : (
             <Input
-              id="label"
+              id="price"
               label="Price"
               errorText="Please enter a valid price!"
               keyboardType="decimal-pad"
@@ -169,9 +169,9 @@ const EditProductScreen = props => {
             autoCapitalize="sentences"
             autoCorrect
             multiline
-            numberOfLineds={3}
+            numberOfLines={3}
             onInputChange={inputChangeHandler}
-            initialValue={editedProduct ? editedProduct.description : ""}
+            initialValue={editedProduct ? editedProduct.description : ''}
             initiallyValid={!!editedProduct}
             required
             minLength={5}
