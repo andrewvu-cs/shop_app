@@ -13,9 +13,9 @@ export const fetchProducts = () => {
         "https://rn-shop-app-3dc69.firebaseio.com/products.json"
       );
 
-      // if we get 400 or 500 status codes 
-      if (!response.ok){
-        throw new Error('Something went wrong');
+      // if we get 400 or 500 status codes
+      if (!response.ok) {
+        throw new Error("Something went wrong");
       }
 
       const resData = await response.json();
@@ -37,13 +37,22 @@ export const fetchProducts = () => {
       dispatch({ type: SET_PRODUCTS, products: loadedProducts });
     } catch (err) {
       //send to custom analytics server
-      throw err
+      throw err;
     }
   };
 };
 
 export const deleteProduct = pid => {
-  return { type: DELETE_PRODUCT, pid: pid };
+  return async dispatch => {
+    await fetch(
+      `https://rn-shop-app-3dc69.firebaseio.com/products/${pid}.json`,
+      {
+        method: "DELETE"
+      }
+    );
+    dispatch({ type: DELETE_PRODUCT, pid: pid });
+
+  };
 };
 
 export const createProduct = (title, description, imageUrl, price) => {
@@ -81,13 +90,30 @@ export const createProduct = (title, description, imageUrl, price) => {
 };
 
 export const updateProduct = (title, description, imageUrl, pid) => {
-  return {
-    type: UPDATE_PRODUCT,
-    pid,
-    productData: {
-      title,
-      description,
-      imageUrl
-    }
+  return async dispatch => {
+     await fetch(
+      `https://rn-shop-app-3dc69.firebaseio.com/products/${pid}.json`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          imageUrl
+        })
+      }
+    );
+
+    dispatch({
+      type: UPDATE_PRODUCT,
+      pid: pid,
+      productData: {
+        title,
+        description,
+        imageUrl
+      }
+    });
   };
 };

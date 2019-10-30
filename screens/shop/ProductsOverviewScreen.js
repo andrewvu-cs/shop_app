@@ -27,6 +27,7 @@ const ProductsOverviewScreen = props => {
   const dispatch = useDispatch();
 
   const loadProducts = useCallback(async () => {
+    console.log('LOAD PRODUCtS');
     setError(null);
     setIsLoading(true);
     try {
@@ -41,6 +42,19 @@ const ProductsOverviewScreen = props => {
   useEffect(() => {
     loadProducts();
   }, [dispatch, loadProducts]);
+
+  // drawer navigation is saved in memory re-render will not happpen 
+  // stack navigation is 
+  // need to create a navigation listner
+  useEffect(()=> {
+    const willFocusSub = props.navigation.addListener('willFocus', () => {
+      loadProducts();
+    })
+    // cleanup
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadProducts]);
 
   const selectItemHandler = (pid, title) => {
     props.navigation.navigate("ProductDetails", {
