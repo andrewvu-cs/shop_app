@@ -20,6 +20,7 @@ import Colors from "../../constants/Colors";
 
 const ProductsOverviewScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState();
   /* useSelector recieves the state, use the state => products (set up in our reducer (App.js)) 
       => availableProducts slice (set up in reducers/products.js) */
@@ -29,18 +30,20 @@ const ProductsOverviewScreen = props => {
   const loadProducts = useCallback(async () => {
     console.log('LOAD PRODUCtS');
     setError(null);
-    setIsLoading(true);
+    setIsRefreshing(true);
     try {
       await dispatch(productsActions.fetchProducts());
     } catch (err) {
       setError(err.message);
     }
-    setIsLoading(false);
+    setIsRefreshing(false);
   },[dispatch, setIsLoading, setError]);
 
   // whenever the component is loaded
   useEffect(() => {
+    setIsLoading(true);
     loadProducts();
+    setIsLoading(false);
   }, [dispatch, loadProducts]);
 
   // drawer navigation is saved in memory re-render will not happpen 
@@ -118,6 +121,8 @@ const ProductsOverviewScreen = props => {
 
   return (
     <FlatList
+      onRefresh={loadProducts}
+      refreshing={isRefreshing}
       keyExtractor={(item, index) => item.pid}
       data={products}
       renderItem={renderProductItem}
