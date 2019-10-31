@@ -11,6 +11,7 @@ import CartScreen from "../screens/shop/CartScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
 import UserProductScreen from "../screens/user/UserProductScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
+import StartupScreen from '../screens/StartupScreen';
 import Colors from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -107,6 +108,7 @@ const AuthNavigator = createStackNavigator(
 );
 
 const MainNavigator = createSwitchNavigator({
+  Startup:StartupScreen,
   Auth: AuthNavigator,
   Shop: ShopNavigator
 });
