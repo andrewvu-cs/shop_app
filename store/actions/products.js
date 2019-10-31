@@ -6,11 +6,12 @@ export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const SET_PRODUCTS = "SET_PRODUCTS";
 
 export const fetchProducts = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     // any async code you want!
     try {
       const response = await fetch(
-        "https://rn-shop-app-3dc69.firebaseio.com/products.json"
+        "https://rn-shop-app-3dc69.firebaseio.com/products.json/"
       );
 
       // if we get 400 or 500 status codes
@@ -34,7 +35,11 @@ export const fetchProducts = () => {
         );
       }
 
-      dispatch({ type: SET_PRODUCTS, products: loadedProducts });
+      dispatch({
+        type: SET_PRODUCTS,
+        products: loadedProducts,
+        userProducts: loadedProducts.filter(prod => prod.uid === userId)
+      });
     } catch (err) {
       //send to custom analytics server
       throw err;
@@ -43,27 +48,30 @@ export const fetchProducts = () => {
 };
 
 export const deleteProduct = pid => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const response = await fetch(
-      `https://rn-shop-app-3dc69.firebaseio.com/products/${pid}.json`,
+      `https://rn-shop-app-3dc69.firebaseio.com/products/${pid}.json?auth=${token}`,
       {
         method: "DELETE"
       }
     );
 
-    if (!response.ok){
-      throw new Error('Something wet wrong')
+    if (!response.ok) {
+      throw new Error("Something wet wrong");
     }
-    
+
     dispatch({ type: DELETE_PRODUCT, pid: pid });
   };
 };
 
 export const createProduct = (title, description, imageUrl, price) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     // any async code you want!
     const response = await fetch(
-      "https://rn-shop-app-3dc69.firebaseio.com/products.json",
+      `https://rn-shop-app-3dc69.firebaseio.com/products.json?auth=${token}`,
       {
         method: "POST",
         headers: {
@@ -73,7 +81,8 @@ export const createProduct = (title, description, imageUrl, price) => {
           title,
           description,
           imageUrl,
-          price
+          price,
+          uid: userId
         })
       }
     );
@@ -87,20 +96,22 @@ export const createProduct = (title, description, imageUrl, price) => {
         title,
         description,
         imageUrl,
-        price
+        price,
+        uid: userId
       }
     });
   };
 };
 
 export const updateProduct = (title, description, imageUrl, pid) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     const response = await fetch(
-      `https://rn-shop-app-3dc69.firebaseio.com/products/${pid}.json`,
+      `https://rn-shop-app-3dc69.firebaseio.com/products/${pid}.json?auth=${token}`,
       {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           title,
@@ -110,9 +121,8 @@ export const updateProduct = (title, description, imageUrl, pid) => {
       }
     );
 
-
-    if (!response.ok){
-      throw new Error('Something wet wrong')
+    if (!response.ok) {
+      throw new Error("Something wet wrong");
     }
 
     dispatch({

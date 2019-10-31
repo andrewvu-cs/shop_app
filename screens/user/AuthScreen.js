@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useCallback } from "react";
+import React, { useState, useEffect, useReducer, useCallback } from 'react';
 import {
   ScrollView,
   View,
@@ -7,16 +7,16 @@ import {
   Button,
   ActivityIndicator,
   Alert
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { useDispatch } from "react-redux";
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useDispatch } from 'react-redux';
 
-import Input from "../../components/UI/Input";
-import Card from "../../components/UI/Card";
-import Colors from "../../constants/Colors";
-import * as authActions from "../../store/actions/auth";
+import Input from '../../components/UI/Input';
+import Card from '../../components/UI/Card';
+import Colors from '../../constants/Colors';
+import * as authActions from '../../store/actions/auth';
 
-const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
 const formReducer = (state, action) => {
   if (action.type === FORM_INPUT_UPDATE) {
@@ -41,7 +41,6 @@ const formReducer = (state, action) => {
   return state;
 };
 
-// COMPONENT
 const AuthScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
@@ -50,8 +49,8 @@ const AuthScreen = props => {
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
-      email: "",
-      password: ""
+      email: '',
+      password: ''
     },
     inputValidities: {
       email: false,
@@ -62,7 +61,7 @@ const AuthScreen = props => {
 
   useEffect(() => {
     if (error) {
-      Alert.alert("An Error Ocurred!", error, [{ text: "Okay" }]);
+      Alert.alert('An Error Occurred!', error, [{ text: 'Okay' }]);
     }
   }, [error]);
 
@@ -79,13 +78,15 @@ const AuthScreen = props => {
         formState.inputValues.password
       );
     }
+    setError(null);
     setIsLoading(true);
     try {
       await dispatch(action);
+      props.navigation.navigate('Shop');
     } catch (err) {
       setError(err.message);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const inputChangeHandler = useCallback(
@@ -106,7 +107,7 @@ const AuthScreen = props => {
       keyboardVerticalOffset={50}
       style={styles.screen}
     >
-      <LinearGradient colors={["#ffedff", "#ffe3ff"]} style={styles.gradient}>
+      <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>
         <Card style={styles.authContainer}>
           <ScrollView>
             <Input
@@ -137,7 +138,7 @@ const AuthScreen = props => {
                 <ActivityIndicator size="small" color={Colors.primary} />
               ) : (
                 <Button
-                  title={isSignup ? "Sign Up" : "Login"}
+                  title={isSignup ? 'Sign Up' : 'Login'}
                   color={Colors.primary}
                   onPress={authHandler}
                 />
@@ -145,8 +146,8 @@ const AuthScreen = props => {
             </View>
             <View style={styles.buttonContainer}>
               <Button
-                title={`Switch to ${isSignup ? "Login" : "Sign Up"}`}
-                color={Colors.secondary}
+                title={`Switch to ${isSignup ? 'Login' : 'Sign Up'}`}
+                color={Colors.accent}
                 onPress={() => {
                   setIsSignup(prevState => !prevState);
                 }}
@@ -160,7 +161,7 @@ const AuthScreen = props => {
 };
 
 AuthScreen.navigationOptions = {
-  headerTitle: "Authenticate"
+  headerTitle: 'Authenticate'
 };
 
 const styles = StyleSheet.create({
@@ -169,11 +170,11 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   authContainer: {
-    width: "80%",
+    width: '80%',
     maxWidth: 400,
     maxHeight: 400,
     padding: 20

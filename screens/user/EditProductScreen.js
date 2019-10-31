@@ -203,7 +203,7 @@ EditProductScreen.navigationOptions = navData => {
   return {
     headerTitle: navData.navigation.getParam("productId")
       ? "Edit Product"
-      : "Add Produt",
+      : "Add Product",
     headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
