@@ -1,10 +1,10 @@
 export const SIGNUP = "SIGNUP";
-export const LOGIN = 'LOGIN';
+export const LOGIN = "LOGIN";
 
 export const signup = (email, password) => {
-    return async dispatch => {
-      const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]",
+  return async dispatch => {
+    const response = await fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API KEY]",
       {
         method: "POST",
         headers: {
@@ -19,7 +19,13 @@ export const signup = (email, password) => {
     );
 
     if (!response.ok) {
-      throw new Error("Something went wrong!");
+        const errorResData = await response.json();
+        const errorId = errorResData.error.message;
+        let message = "Something went wrong!";
+        if (errorId === "EMAIL EXISTS") {
+          message = "This email exists already";
+        } 
+        throw new Error(message);
     }
 
     const resData = await response.json();
@@ -28,11 +34,10 @@ export const signup = (email, password) => {
   };
 };
 
-
 export const login = (email, password) => {
-    return async dispatch => {
-      const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]",
+  return async dispatch => {
+    const response = await fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API KEY]",
       {
         method: "POST",
         headers: {
@@ -47,7 +52,15 @@ export const login = (email, password) => {
     );
 
     if (!response.ok) {
-      throw new Error("Something went wrong!");
+      const errorResData = await response.json();
+      const errorId = errorResData.error.message;
+      let message = "Something went wrong!";
+      if (errorId === "EMAIL_NOT_FOUND") {
+        message = "This email could not be found";
+      } else if (errorId === "INVALID_PASSWORD") {
+        message = "This password is not valid!";
+      }
+      throw new Error(message);
     }
 
     const resData = await response.json();
